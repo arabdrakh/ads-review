@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithms | ADS Review</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo"><h2>📚 ADS Review</h2></div>
+        <ul class="nav-links">
+            <li><a href="../index.html">🏠 Home</a></li>
+            <li><a href="recursion.html">1. Recursion</a></li>
+            <li><a href="big-o.html">2. Big-O Notation</a></li>
+            <li><a href="data-structures.html">3. Array & LinkedList</a></li>
+            <li><a href="stack-queue-heap.html">4. Stack, Queue, Heap</a></li>
+            <li><a href="hash-bst.html">5. Hash Tables & BST</a></li>
+            <li><a href="sorting.html" class="active">6. Sorting Algorithms</a></li>
+            <li><a href="searching.html">7. Searching</a></li>
+            <li><a href="graphs.html">8. Graphs</a></li>
+            <li><a href="bfs-dfs-dijkstra.html">9. BFS, DFS, Dijkstra</a></li>
+            <li><a href="dynamic-programming.html">10. Dynamic Programming</a></li>
+            <li class="divider"></li>
+            <li><a href="cheatsheet.html">📋 Cheat Sheet</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </nav>
+
+    <main class="content">
+        <div class="back-nav"><a href="../index.html">← Back to Home</a></div>
+        
+        <h1>🔢 Sorting Algorithms</h1>
+        <h2>Week 6: Bubble, Merge, Quick, and Heap Sort</h2>
+
+        <div class="section">
+            <h2>Complexity Summary</h2>
+            <table>
+                <tr>
+                    <th>Algorithm</th>
+                    <th>Best</th>
+                    <th>Average</th>
+                    <th>Worst</th>
+                    <th>Space</th>
+                    <th>Stable?</th>
+                </tr>
+                <tr>
+                    <td>Bubble Sort</td>
+                    <td><span class="complexity medium">O(n)</span></td>
+                    <td><span class="complexity bad">O(n²)</span></td>
+                    <td><span class="complexity bad">O(n²)</span></td>
+                    <td>O(1)</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>Merge Sort</td>
+                    <td><span class="complexity good">O(n log n)</span></td>
+                    <td><span class="complexity good">O(n log n)</span></td>
+                    <td><span class="complexity good">O(n log n)</span></td>
+                    <td>O(n)</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>Quick Sort</td>
+                    <td><span class="complexity good">O(n log n)</span></td>
+                    <td><span class="complexity good">O(n log n)</span></td>
+                    <td><span class="complexity bad">O(n²)</span></td>
+                    <td>O(log n)</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>Heap Sort</td>
+                    <td><span class="complexity good">O(n log n)</span></td>
+                    <td><span class="complexity good">O(n log n)</span></td>
+                    <td><span class="complexity good">O(n log n)</span></td>
+                    <td>O(1)</td>
+                    <td>No</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Bubble Sort</h2>
+            <p>Repeatedly compares adjacent elements and swaps if in wrong order.</p>
+            
+            <div class="key-point">
+                <strong>Key Idea:</strong> After each pass, the largest unsorted element "bubbles up" to its correct position.
+            </div>
+
+<pre>
+void bubbleSort(int[] arr) {
+    int n = arr.length;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // Swap
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+</pre>
+        </div>
+
+        <div class="section">
+            <h2>Divide and Conquer</h2>
+            <p>A strategy that breaks problems into smaller subproblems, solves them recursively, then combines solutions.</p>
+            <ol>
+                <li><strong>Divide:</strong> Split problem into smaller parts</li>
+                <li><strong>Conquer:</strong> Solve each part recursively</li>
+                <li><strong>Combine:</strong> Merge solutions together</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>Merge Sort</h2>
+            <p>Divides array in half recursively, then merges sorted halves.</p>
+
+<pre>
+void mergeSort(int[] arr, int left, int right) {
+    if (left < right) {
+        int mid = (left + right) / 2;
+        
+        mergeSort(arr, left, mid);       // Sort left half
+        mergeSort(arr, mid + 1, right);  // Sort right half
+        merge(arr, left, mid, right);    // Merge halves
+    }
+}
+
+void merge(int[] arr, int left, int mid, int right) {
+    // Create temp arrays
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+    int[] L = new int[n1];
+    int[] R = new int[n2];
+    
+    // Copy data
+    for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];
+    
+    // Merge back
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k++] = L[i++];
+        } else {
+            arr[k++] = R[j++];
+        }
+    }
+    
+    // Copy remaining
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
+}
+</pre>
+
+            <div class="note">
+                💡 Merge Sort is <strong>stable</strong> and always O(n log n), but uses O(n) extra space.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Quick Sort</h2>
+            <p>Selects a pivot, partitions array around it (smaller left, larger right), then recursively sorts.</p>
+
+<pre>
+void quickSort(int[] arr, int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+        
+        quickSort(arr, low, pi - 1);   // Before pivot
+        quickSort(arr, pi + 1, high);  // After pivot
+    }
+}
+
+int partition(int[] arr, int low, int high) {
+    int pivot = arr[high];  // Choose last element as pivot
+    int i = low - 1;
+    
+    for (int j = low; j < high; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            swap(arr, i, j);
+        }
+    }
+    swap(arr, i + 1, high);
+    return i + 1;
+}
+</pre>
+
+            <div class="warning">
+                ⚠️ <strong>Worst case O(n²)</strong> occurs when pivot is always smallest or largest element (e.g., already sorted array with last element as pivot).
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Heap Sort</h2>
+            <p>Builds a max heap, then repeatedly extracts the maximum.</p>
+            <ol>
+                <li>Build max heap from array</li>
+                <li>Swap root (max) with last element</li>
+                <li>Reduce heap size and heapify root</li>
+                <li>Repeat until sorted</li>
+            </ol>
+
+<pre>
+void heapSort(int[] arr) {
+    int n = arr.length;
+    
+    // Build max heap
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(arr, n, i);
+    }
+    
+    // Extract elements one by one
+    for (int i = n - 1; i > 0; i--) {
+        swap(arr, 0, i);       // Move root to end
+        heapify(arr, i, 0);    // Heapify reduced heap
+    }
+}
+</pre>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="quiz-container" id="quiz-sorting">
+            <h3>📝 Quick Quiz</h3>
+            
+            <div class="quiz-question" data-answer="c">
+                <p>1. Which sorting algorithm has worst-case O(n²)?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q1" value="a"> Merge Sort</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="b"> Heap Sort</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="c"> Quick Sort</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="d"> All of above</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="b">
+                <p>2. Merge Sort requires extra space of:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q2" value="a"> O(1)</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="b"> O(n)</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="c"> O(log n)</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="d"> O(n²)</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="a">
+                <p>3. Which is a divide-and-conquer algorithm?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q3" value="a"> Merge Sort</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="b"> Bubble Sort</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="c"> Selection Sort</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="d"> Insertion Sort</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="d">
+                <p>4. Best-case complexity of Bubble Sort is:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q4" value="a"> O(n²)</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="b"> O(n log n)</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="c"> O(log n)</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="d"> O(n)</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="c">
+                <p>5. Heap Sort uses which data structure?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q5" value="a"> Stack</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="b"> Queue</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="c"> Heap</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="d"> LinkedList</label>
+                </div>
+            </div>
+
+            <button class="quiz-btn" onclick="checkQuiz('quiz-sorting')">Check Answers</button>
+            <button class="quiz-btn" onclick="resetQuiz('quiz-sorting')" style="background: var(--text-secondary)">Reset</button>
+            <div class="quiz-result"></div>
+        </div>
+
+    </main>
+    <script src="../script.js"></script>
+</body>
+</html>

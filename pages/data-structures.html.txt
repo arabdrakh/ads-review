@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array & LinkedList | ADS Review</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo"><h2>📚 ADS Review</h2></div>
+        <ul class="nav-links">
+            <li><a href="../index.html">🏠 Home</a></li>
+            <li><a href="recursion.html">1. Recursion</a></li>
+            <li><a href="big-o.html">2. Big-O Notation</a></li>
+            <li><a href="data-structures.html" class="active">3. Array & LinkedList</a></li>
+            <li><a href="stack-queue-heap.html">4. Stack, Queue, Heap</a></li>
+            <li><a href="hash-bst.html">5. Hash Tables & BST</a></li>
+            <li><a href="sorting.html">6. Sorting Algorithms</a></li>
+            <li><a href="searching.html">7. Searching</a></li>
+            <li><a href="graphs.html">8. Graphs</a></li>
+            <li><a href="bfs-dfs-dijkstra.html">9. BFS, DFS, Dijkstra</a></li>
+            <li><a href="dynamic-programming.html">10. Dynamic Programming</a></li>
+            <li class="divider"></li>
+            <li><a href="cheatsheet.html">📋 Cheat Sheet</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </nav>
+
+    <main class="content">
+        <div class="back-nav"><a href="../index.html">← Back to Home</a></div>
+        
+        <h1>📦 Physical Data Structures</h1>
+        <h2>Week 3: Array, ArrayList, and LinkedList</h2>
+
+        <div class="section">
+            <h2>Array</h2>
+            <p>Arrays store elements of the same type in <strong>contiguous memory locations</strong>.</p>
+            
+            <div class="key-point">
+                <strong>Key Properties:</strong>
+                <ul>
+                    <li>Fixed size (static)</li>
+                    <li>Fast access by index: O(1)</li>
+                    <li>Elements stored sequentially in memory</li>
+                </ul>
+            </div>
+
+<pre>
+// Declaration and initialization
+int[] numbers = new int[5];        // Size 5, all zeros
+String[] names = {"Alice", "Bob"}; // Size 2
+
+// Access by index
+int first = numbers[0];   // O(1)
+numbers[2] = 10;          // O(1)
+</pre>
+        </div>
+
+        <div class="section">
+            <h2>ArrayList</h2>
+            <p>Dynamic array that can grow and shrink automatically.</p>
+
+<pre>
+ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+
+list.add(10);       // Add to end: O(1) amortized
+list.add(0, 5);     // Add at index 0: O(n) - must shift!
+list.get(2);        // Access by index: O(1)
+list.remove(0);     // Remove at index 0: O(n) - must shift!
+</pre>
+
+            <div class="warning">
+                ⚠️ <strong>Disadvantage:</strong> Adding/removing at position 0 requires shifting all elements → O(n)
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>LinkedList</h2>
+            <p>A series of <strong>nodes</strong> where each node contains data and a reference to the next node.</p>
+
+            <h3>Node Structure</h3>
+<pre>
+class Node&lt;T&gt; {
+    T data;
+    Node&lt;T&gt; next;
+    
+    Node(T data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+</pre>
+
+            <h3>Types of LinkedList</h3>
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><strong>Singly-linked</strong></td>
+                    <td>Each node points to next only</td>
+                </tr>
+                <tr>
+                    <td><strong>Doubly-linked</strong></td>
+                    <td>Each node points to next AND previous</td>
+                </tr>
+                <tr>
+                    <td><strong>Circular</strong></td>
+                    <td>Last node points back to first</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>LinkedList Operations</h2>
+
+<pre>
+class LinkedList&lt;T&gt; {
+    Node&lt;T&gt; head;
+    Node&lt;T&gt; tail;  // Optional, but improves performance
+    
+    // Add to beginning: O(1)
+    void addFirst(T data) {
+        Node&lt;T&gt; newNode = new Node&lt;&gt;(data);
+        newNode.next = head;
+        head = newNode;
+        if (tail == null) tail = newNode;
+    }
+    
+    // Add to end (with tail): O(1)
+    void addLast(T data) {
+        Node&lt;T&gt; newNode = new Node&lt;&gt;(data);
+        if (tail == null) {
+            head = tail = newNode;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+    }
+    
+    // Remove first: O(1)
+    T removeFirst() {
+        if (head == null) return null;
+        T data = head.data;
+        head = head.next;
+        if (head == null) tail = null;
+        return data;
+    }
+}
+</pre>
+        </div>
+
+        <div class="section">
+            <h2>Complexity Comparison</h2>
+            
+            <table>
+                <tr>
+                    <th>Operation</th>
+                    <th>Array</th>
+                    <th>ArrayList</th>
+                    <th>LinkedList</th>
+                </tr>
+                <tr>
+                    <td>Access by index</td>
+                    <td><span class="complexity good">O(1)</span></td>
+                    <td><span class="complexity good">O(1)</span></td>
+                    <td><span class="complexity bad">O(n)</span></td>
+                </tr>
+                <tr>
+                    <td>Add at end</td>
+                    <td>N/A (fixed)</td>
+                    <td><span class="complexity good">O(1)*</span></td>
+                    <td><span class="complexity good">O(1)</span>†</td>
+                </tr>
+                <tr>
+                    <td>Add at beginning</td>
+                    <td>N/A</td>
+                    <td><span class="complexity bad">O(n)</span></td>
+                    <td><span class="complexity good">O(1)</span></td>
+                </tr>
+                <tr>
+                    <td>Remove at beginning</td>
+                    <td>N/A</td>
+                    <td><span class="complexity bad">O(n)</span></td>
+                    <td><span class="complexity good">O(1)</span></td>
+                </tr>
+                <tr>
+                    <td>Search</td>
+                    <td><span class="complexity bad">O(n)</span></td>
+                    <td><span class="complexity bad">O(n)</span></td>
+                    <td><span class="complexity bad">O(n)</span></td>
+                </tr>
+                <tr>
+                    <td>Memory</td>
+                    <td>Less</td>
+                    <td>Less</td>
+                    <td>More (pointers)</td>
+                </tr>
+            </table>
+            <p><small>* Amortized, † With tail pointer</small></p>
+        </div>
+
+        <div class="section">
+            <h2>When to Use Which?</h2>
+            
+            <div class="key-point">
+                <strong>Use ArrayList when:</strong>
+                <ul>
+                    <li>You need fast random access by index</li>
+                    <li>Most operations are at the end</li>
+                    <li>You want less memory overhead</li>
+                </ul>
+            </div>
+
+            <div class="key-point">
+                <strong>Use LinkedList when:</strong>
+                <ul>
+                    <li>Frequent insertions/deletions at beginning or middle</li>
+                    <li>You don't need random access</li>
+                    <li>Size changes frequently</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="quiz-container" id="quiz-ds">
+            <h3>📝 Quick Quiz</h3>
+            
+            <div class="quiz-question" data-answer="b">
+                <p>1. What is the time complexity of accessing element at index i in LinkedList?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q1" value="a"> O(1)</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="b"> O(n)</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="c"> O(log n)</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="d"> O(i)</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="a">
+                <p>2. Adding element at index 0 in ArrayList requires:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q2" value="a"> Shifting all elements right</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="b"> Creating new array</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="c"> Just one pointer change</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="d"> No additional operations</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="c">
+                <p>3. In a singly-linked list, each node contains:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q3" value="a"> Data only</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="b"> Data and previous pointer</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="c"> Data and next pointer</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="d"> Data, next, and previous pointers</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="d">
+                <p>4. What structure is best for frequent insertions at the beginning?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q4" value="a"> Array</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="b"> ArrayList</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="c"> Both equally good</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="d"> LinkedList</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="a">
+                <p>5. Array elements are stored in:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q5" value="a"> Contiguous memory locations</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="b"> Random memory locations</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="c"> Linked memory locations</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="d"> Heap memory only</label>
+                </div>
+            </div>
+
+            <button class="quiz-btn" onclick="checkQuiz('quiz-ds')">Check Answers</button>
+            <button class="quiz-btn" onclick="resetQuiz('quiz-ds')" style="background: var(--text-secondary)">Reset</button>
+            <div class="quiz-result"></div>
+        </div>
+
+    </main>
+    <script src="../script.js"></script>
+</body>
+</html>

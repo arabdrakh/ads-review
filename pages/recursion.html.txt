@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursion | ADS Review</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo"><h2>📚 ADS Review</h2></div>
+        <ul class="nav-links">
+            <li><a href="../index.html">🏠 Home</a></li>
+            <li><a href="recursion.html" class="active">1. Recursion</a></li>
+            <li><a href="big-o.html">2. Big-O Notation</a></li>
+            <li><a href="data-structures.html">3. Array & LinkedList</a></li>
+            <li><a href="stack-queue-heap.html">4. Stack, Queue, Heap</a></li>
+            <li><a href="hash-bst.html">5. Hash Tables & BST</a></li>
+            <li><a href="sorting.html">6. Sorting Algorithms</a></li>
+            <li><a href="searching.html">7. Searching</a></li>
+            <li><a href="graphs.html">8. Graphs</a></li>
+            <li><a href="bfs-dfs-dijkstra.html">9. BFS, DFS, Dijkstra</a></li>
+            <li><a href="dynamic-programming.html">10. Dynamic Programming</a></li>
+            <li class="divider"></li>
+            <li><a href="cheatsheet.html">📋 Cheat Sheet</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </nav>
+
+    <main class="content">
+        <div class="back-nav"><a href="../index.html">← Back to Home</a></div>
+        
+        <h1>🔄 Recursion</h1>
+        <h2>Week 1: Function calls, stack, and recursive thinking</h2>
+
+        <div class="section">
+            <h2>What is Recursion?</h2>
+            <p>Recursion is a programming technique where a <strong>function calls itself</strong> to solve smaller instances of the same problem.</p>
+            
+            <div class="key-point">
+                <strong>Key Idea:</strong> Break a complex problem into simpler sub-problems until you reach a trivial case (base case).
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Function Call Stack</h2>
+            <p>When a function is called, it's added to the <strong>call stack</strong>. The stack follows <strong>LIFO</strong> (Last-In-First-Out) principle.</p>
+            
+            <ul>
+                <li>Each function call creates a new <strong>stack frame</strong></li>
+                <li>The frame stores local variables and return address</li>
+                <li>When function returns, its frame is popped from stack</li>
+            </ul>
+
+            <div class="warning">
+                ⚠️ <strong>Stack Overflow:</strong> Too many recursive calls without reaching base case will crash the program!
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Two Essential Parts</h2>
+            
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Description</th>
+                    <th>Example (Factorial)</th>
+                </tr>
+                <tr>
+                    <td><strong>Base Case</strong></td>
+                    <td>Simplest case that can be solved directly (stops recursion)</td>
+                    <td><code>if (n <= 1) return 1;</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Recursive Case</strong></td>
+                    <td>Breaks problem into smaller subproblems</td>
+                    <td><code>return n * factorial(n-1);</code></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Example 1: Print Numbers (n to 1)</h2>
+<pre>
+void printNumbers(int n) {
+    // Base case
+    if (n == 0) {
+        return;
+    }
+    
+    // Print current number
+    System.out.println(n);
+    
+    // Recursive call with smaller problem
+    printNumbers(n - 1);
+}
+
+// printNumbers(5) outputs: 5 4 3 2 1
+</pre>
+
+            <div class="note">
+                💡 The recursive call comes AFTER the print, so numbers print in descending order.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Example 2: Factorial</h2>
+            <p><strong>Mathematical definition:</strong> n! = n × (n-1) × (n-2) × ... × 2 × 1</p>
+            <p><strong>Recursive definition:</strong> n! = n × (n-1)!</p>
+            
+<pre>
+int factorial(int n) {
+    // Base case
+    if (n <= 1) {
+        return 1;
+    }
+    
+    // Recursive case
+    return n * factorial(n - 1);
+}
+
+// factorial(5) = 5 * 4 * 3 * 2 * 1 = 120
+</pre>
+
+            <h3>Trace of factorial(4):</h3>
+<pre>
+factorial(4)
+  → 4 * factorial(3)
+      → 3 * factorial(2)
+          → 2 * factorial(1)
+              → return 1        // base case reached
+          → return 2 * 1 = 2
+      → return 3 * 2 = 6
+  → return 4 * 6 = 24
+</pre>
+        </div>
+
+        <div class="section">
+            <h2>Common Pitfalls</h2>
+            <table>
+                <tr>
+                    <th>Pitfall</th>
+                    <th>Problem</th>
+                    <th>Solution</th>
+                </tr>
+                <tr>
+                    <td>Missing base case</td>
+                    <td>Infinite recursion → Stack Overflow</td>
+                    <td>Always define when to stop</td>
+                </tr>
+                <tr>
+                    <td>No convergence</td>
+                    <td>Problem doesn't get smaller</td>
+                    <td>Ensure each call moves toward base case</td>
+                </tr>
+                <tr>
+                    <td>Incorrect base case</td>
+                    <td>Wrong answer or infinite loop</td>
+                    <td>Test with smallest valid input</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Recursion vs Iteration</h2>
+            <table>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Recursion</th>
+                    <th>Iteration</th>
+                </tr>
+                <tr>
+                    <td>Termination</td>
+                    <td>Base case</td>
+                    <td>Loop condition fails</td>
+                </tr>
+                <tr>
+                    <td>Memory</td>
+                    <td>Uses stack (more memory)</td>
+                    <td>Uses variables (less memory)</td>
+                </tr>
+                <tr>
+                    <td>Readability</td>
+                    <td>Often cleaner for complex problems</td>
+                    <td>Usually simpler for basic loops</td>
+                </tr>
+                <tr>
+                    <td>Performance</td>
+                    <td>Function call overhead</td>
+                    <td>Generally faster</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="quiz-container" id="quiz-recursion">
+            <h3>📝 Quick Quiz</h3>
+            
+            <div class="quiz-question" data-answer="b">
+                <p>1. What happens if a recursive function has no base case?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q1" value="a"> Returns 0</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="b"> Stack Overflow</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="c"> Compilation error</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="d"> Returns null</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="c">
+                <p>2. What is the output of: <code>factorial(0)</code> if base case is <code>n <= 1 return 1</code>?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q2" value="a"> 0</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="b"> Error</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="c"> 1</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="d"> -1</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="a">
+                <p>3. In the call stack, which function is executed first when returning?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q3" value="a"> The last one added (most recent)</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="b"> The first one added (oldest)</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="c"> Random order</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="d"> Alphabetical order</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="d">
+                <p>4. What is factorial(5)?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q4" value="a"> 15</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="b"> 25</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="c"> 60</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="d"> 120</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="b">
+                <p>5. Which data structure does the system use to manage function calls?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q5" value="a"> Queue</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="b"> Stack</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="c"> Heap</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="d"> Array</label>
+                </div>
+            </div>
+
+            <button class="quiz-btn" onclick="checkQuiz('quiz-recursion')">Check Answers</button>
+            <button class="quiz-btn" onclick="resetQuiz('quiz-recursion')" style="background: var(--text-secondary)">Reset</button>
+            <div class="quiz-result"></div>
+        </div>
+
+    </main>
+    <script src="../script.js"></script>
+</body>
+</html>

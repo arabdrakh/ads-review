@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheat Sheet | ADS Review</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .cheat-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .cheat-section h3 {
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 768px) {
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo"><h2>📚 ADS Review</h2></div>
+        <ul class="nav-links">
+            <li><a href="../index.html">🏠 Home</a></li>
+            <li><a href="recursion.html">1. Recursion</a></li>
+            <li><a href="big-o.html">2. Big-O Notation</a></li>
+            <li><a href="data-structures.html">3. Array & LinkedList</a></li>
+            <li><a href="stack-queue-heap.html">4. Stack, Queue, Heap</a></li>
+            <li><a href="hash-bst.html">5. Hash Tables & BST</a></li>
+            <li><a href="sorting.html">6. Sorting Algorithms</a></li>
+            <li><a href="searching.html">7. Searching</a></li>
+            <li><a href="graphs.html">8. Graphs</a></li>
+            <li><a href="bfs-dfs-dijkstra.html">9. BFS, DFS, Dijkstra</a></li>
+            <li><a href="dynamic-programming.html">10. Dynamic Programming</a></li>
+            <li class="divider"></li>
+            <li><a href="cheatsheet.html" class="active">📋 Cheat Sheet</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </nav>
+
+    <main class="content">
+        <div class="back-nav"><a href="../index.html">← Back to Home</a></div>
+        
+        <h1>📋 Final Exam Cheat Sheet</h1>
+        <h2>All key concepts in one place</h2>
+
+        <div class="cheat-section">
+            <h3>🔢 Big-O Complexity (Fastest → Slowest)</h3>
+            <p><code>O(1)</code> → <code>O(log n)</code> → <code>O(n)</code> → <code>O(n log n)</code> → <code>O(n²)</code> → <code>O(2ⁿ)</code> → <code>O(n!)</code></p>
+            
+            <table>
+                <tr>
+                    <th>Pattern</th>
+                    <th>Complexity</th>
+                </tr>
+                <tr><td>No loops, array access</td><td>O(1)</td></tr>
+                <tr><td>Loop halving each time</td><td>O(log n)</td></tr>
+                <tr><td>Single loop 0 to n</td><td>O(n)</td></tr>
+                <tr><td>Efficient sorts</td><td>O(n log n)</td></tr>
+                <tr><td>Nested loops</td><td>O(n²)</td></tr>
+                <tr><td>2 recursive calls (Fib)</td><td>O(2ⁿ)</td></tr>
+            </table>
+        </div>
+
+        <div class="two-col">
+            <div class="cheat-section">
+                <h3>📚 Stack (LIFO)</h3>
+                <ul>
+                    <li><strong>push/pop/peek:</strong> O(1)</li>
+                    <li>Last In, First Out</li>
+                    <li>Uses: function calls, DFS, undo</li>
+                </ul>
+            </div>
+            
+            <div class="cheat-section">
+                <h3>📚 Queue (FIFO)</h3>
+                <ul>
+                    <li><strong>enqueue/dequeue:</strong> O(1)</li>
+                    <li>First In, First Out</li>
+                    <li>Uses: BFS, scheduling</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cheat-section">
+            <h3>📦 Data Structure Operations</h3>
+            <table>
+                <tr>
+                    <th>Structure</th>
+                    <th>Access</th>
+                    <th>Search</th>
+                    <th>Insert</th>
+                    <th>Delete</th>
+                </tr>
+                <tr>
+                    <td>Array</td>
+                    <td><span class="complexity good">O(1)</span></td>
+                    <td>O(n)</td>
+                    <td>O(n)</td>
+                    <td>O(n)</td>
+                </tr>
+                <tr>
+                    <td>LinkedList</td>
+                    <td>O(n)</td>
+                    <td>O(n)</td>
+                    <td><span class="complexity good">O(1)</span>*</td>
+                    <td><span class="complexity good">O(1)</span>*</td>
+                </tr>
+                <tr>
+                    <td>Hash Table</td>
+                    <td>-</td>
+                    <td><span class="complexity good">O(1)</span> avg</td>
+                    <td><span class="complexity good">O(1)</span> avg</td>
+                    <td><span class="complexity good">O(1)</span> avg</td>
+                </tr>
+                <tr>
+                    <td>BST</td>
+                    <td>-</td>
+                    <td>O(log n) avg</td>
+                    <td>O(log n) avg</td>
+                    <td>O(log n) avg</td>
+                </tr>
+                <tr>
+                    <td>Heap</td>
+                    <td><span class="complexity good">O(1)</span> (root)</td>
+                    <td>O(n)</td>
+                    <td>O(log n)</td>
+                    <td>O(log n)</td>
+                </tr>
+            </table>
+            <small>* At known position</small>
+        </div>
+
+        <div class="cheat-section">
+            <h3>🔄 Sorting Algorithms</h3>
+            <table>
+                <tr>
+                    <th>Algorithm</th>
+                    <th>Best</th>
+                    <th>Average</th>
+                    <th>Worst</th>
+                    <th>Space</th>
+                </tr>
+                <tr>
+                    <td>Bubble Sort</td>
+                    <td>O(n)</td>
+                    <td>O(n²)</td>
+                    <td>O(n²)</td>
+                    <td>O(1)</td>
+                </tr>
+                <tr>
+                    <td>Merge Sort</td>
+                    <td>O(n log n)</td>
+                    <td>O(n log n)</td>
+                    <td>O(n log n)</td>
+                    <td><strong>O(n)</strong></td>
+                </tr>
+                <tr>
+                    <td>Quick Sort</td>
+                    <td>O(n log n)</td>
+                    <td>O(n log n)</td>
+                    <td><strong>O(n²)</strong></td>
+                    <td>O(log n)</td>
+                </tr>
+                <tr>
+                    <td>Heap Sort</td>
+                    <td>O(n log n)</td>
+                    <td>O(n log n)</td>
+                    <td>O(n log n)</td>
+                    <td>O(1)</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="cheat-section">
+            <h3>🔍 Searching</h3>
+            <table>
+                <tr>
+                    <th>Algorithm</th>
+                    <th>Complexity</th>
+                    <th>Requires</th>
+                </tr>
+                <tr>
+                    <td>Linear Search</td>
+                    <td>O(n)</td>
+                    <td>Nothing</td>
+                </tr>
+                <tr>
+                    <td>Binary Search</td>
+                    <td><span class="complexity good">O(log n)</span></td>
+                    <td><strong>Sorted array</strong></td>
+                </tr>
+                <tr>
+                    <td>Hash Table</td>
+                    <td>O(1) avg</td>
+                    <td>Good hash function</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="cheat-section">
+            <h3>🌳 Tree Traversals (BST)</h3>
+            <table>
+                <tr>
+                    <th>Traversal</th>
+                    <th>Order</th>
+                    <th>Use Case</th>
+                </tr>
+                <tr>
+                    <td><strong>InOrder</strong></td>
+                    <td>Left → Root → Right</td>
+                    <td><strong>Sorted output for BST</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>PreOrder</strong></td>
+                    <td>Root → Left → Right</td>
+                    <td>Copy tree, prefix expression</td>
+                </tr>
+                <tr>
+                    <td><strong>PostOrder</strong></td>
+                    <td>Left → Right → Root</td>
+                    <td>Delete tree, postfix expression</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="cheat-section">
+            <h3>🕸️ Graph Algorithms</h3>
+            <table>
+                <tr>
+                    <th>Algorithm</th>
+                    <th>Data Structure</th>
+                    <th>Use Case</th>
+                    <th>Complexity</th>
+                </tr>
+                <tr>
+                    <td><strong>DFS</strong></td>
+                    <td>Stack</td>
+                    <td>Path finding, cycles</td>
+                    <td>O(V + E)</td>
+                </tr>
+                <tr>
+                    <td><strong>BFS</strong></td>
+                    <td>Queue</td>
+                    <td>Shortest path (unweighted)</td>
+                    <td>O(V + E)</td>
+                </tr>
+                <tr>
+                    <td><strong>Dijkstra</strong></td>
+                    <td>Priority Queue</td>
+                    <td>Shortest path (weighted, non-negative)</td>
+                    <td>O((V+E) log V)</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="cheat-section">
+            <h3>⚡ Key Formulas</h3>
+            
+            <h4>Heap (array, 1-indexed)</h4>
+            <ul>
+                <li>Left child: <code>2i</code></li>
+                <li>Right child: <code>2i + 1</code></li>
+                <li>Parent: <code>i / 2</code></li>
+            </ul>
+
+            <h4>Recursion</h4>
+            <ul>
+                <li>Must have: <strong>Base case</strong> + <strong>Recursive case</strong></li>
+                <li>Missing base case → Stack Overflow</li>
+            </ul>
+
+            <h4>Dynamic Programming</h4>
+            <ul>
+                <li>DP = Recursion + Memoization</li>
+                <li>Requires: Overlapping subproblems + Optimal substructure</li>
+                <li>Naive Fibonacci: O(2ⁿ) → DP Fibonacci: O(n)</li>
+            </ul>
+        </div>
+
+        <div class="cheat-section">
+            <h3>⚠️ Common Exam Traps</h3>
+            <ul>
+                <li><strong>Binary Search</strong> → Array MUST be sorted!</li>
+                <li><strong>Quick Sort worst case</strong> → O(n²) when pivot is always min/max</li>
+                <li><strong>Dijkstra</strong> → Only works with non-negative weights</li>
+                <li><strong>Hash Table worst case</strong> → O(n) with many collisions</li>
+                <li><strong>DFS uses Stack</strong>, <strong>BFS uses Queue</strong></li>
+                <li><strong>InOrder traversal of BST</strong> → gives sorted order</li>
+                <li><strong>Merge Sort space</strong> → O(n), not O(1)!</li>
+            </ul>
+        </div>
+
+        <div class="cheat-section">
+            <h3>🎯 Quick Decision Guide</h3>
+            <table>
+                <tr>
+                    <th>If you need...</th>
+                    <th>Use...</th>
+                </tr>
+                <tr><td>Fast random access</td><td>Array / ArrayList</td></tr>
+                <tr><td>Fast insert/delete at ends</td><td>LinkedList</td></tr>
+                <tr><td>Fast search by key</td><td>Hash Table</td></tr>
+                <tr><td>Sorted data with fast operations</td><td>BST</td></tr>
+                <tr><td>Get min/max quickly</td><td>Heap</td></tr>
+                <tr><td>LIFO order</td><td>Stack</td></tr>
+                <tr><td>FIFO order</td><td>Queue</td></tr>
+                <tr><td>Shortest path (unweighted)</td><td>BFS</td></tr>
+                <tr><td>Shortest path (weighted)</td><td>Dijkstra</td></tr>
+            </table>
+        </div>
+
+    </main>
+    <script src="../script.js"></script>
+</body>
+</html>

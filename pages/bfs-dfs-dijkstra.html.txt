@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFS, DFS, Dijkstra | ADS Review</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo"><h2>📚 ADS Review</h2></div>
+        <ul class="nav-links">
+            <li><a href="../index.html">🏠 Home</a></li>
+            <li><a href="recursion.html">1. Recursion</a></li>
+            <li><a href="big-o.html">2. Big-O Notation</a></li>
+            <li><a href="data-structures.html">3. Array & LinkedList</a></li>
+            <li><a href="stack-queue-heap.html">4. Stack, Queue, Heap</a></li>
+            <li><a href="hash-bst.html">5. Hash Tables & BST</a></li>
+            <li><a href="sorting.html">6. Sorting Algorithms</a></li>
+            <li><a href="searching.html">7. Searching</a></li>
+            <li><a href="graphs.html">8. Graphs</a></li>
+            <li><a href="bfs-dfs-dijkstra.html" class="active">9. BFS, DFS, Dijkstra</a></li>
+            <li><a href="dynamic-programming.html">10. Dynamic Programming</a></li>
+            <li class="divider"></li>
+            <li><a href="cheatsheet.html">📋 Cheat Sheet</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </nav>
+
+    <main class="content">
+        <div class="back-nav"><a href="../index.html">← Back to Home</a></div>
+        
+        <h1>🗺️ Graph Traversals & Shortest Path</h1>
+        <h2>Week 9: BFS, DFS, and Dijkstra's Algorithm</h2>
+
+        <div class="section">
+            <h2>Comparison</h2>
+            <table>
+                <tr>
+                    <th>Algorithm</th>
+                    <th>Data Structure</th>
+                    <th>Order</th>
+                    <th>Use Case</th>
+                </tr>
+                <tr>
+                    <td><strong>DFS</strong></td>
+                    <td>Stack</td>
+                    <td>Deep first, then backtrack</td>
+                    <td>Maze solving, cycle detection</td>
+                </tr>
+                <tr>
+                    <td><strong>BFS</strong></td>
+                    <td>Queue</td>
+                    <td>Level by level</td>
+                    <td>Shortest path (unweighted)</td>
+                </tr>
+                <tr>
+                    <td><strong>Dijkstra</strong></td>
+                    <td>Priority Queue</td>
+                    <td>Lowest distance first</td>
+                    <td>Shortest path (weighted)</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Depth-First Search (DFS)</h2>
+            <p>Go as deep as possible, then backtrack.</p>
+
+            <div class="key-point">
+                <strong>Uses Stack (or recursion)</strong> — LIFO order
+            </div>
+
+<pre>
+void dfs(int start, boolean[] visited) {
+    visited[start] = true;
+    System.out.print(start + " ");
+    
+    for (int neighbor : adj[start]) {
+        if (!visited[neighbor]) {
+            dfs(neighbor, visited);
+        }
+    }
+}
+
+// Iterative with Stack
+void dfsIterative(int start) {
+    boolean[] visited = new boolean[V];
+    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+    stack.push(start);
+    
+    while (!stack.isEmpty()) {
+        int v = stack.pop();
+        if (!visited[v]) {
+            visited[v] = true;
+            System.out.print(v + " ");
+            
+            for (int neighbor : adj[v]) {
+                if (!visited[neighbor]) {
+                    stack.push(neighbor);
+                }
+            }
+        }
+    }
+}
+</pre>
+        </div>
+
+        <div class="section">
+            <h2>Breadth-First Search (BFS)</h2>
+            <p>Visit all neighbors before going deeper.</p>
+
+            <div class="key-point">
+                <strong>Uses Queue</strong> — FIFO order
+            </div>
+
+<pre>
+void bfs(int start) {
+    boolean[] visited = new boolean[V];
+    Queue&lt;Integer&gt; queue = new LinkedList&lt;&gt;();
+    
+    visited[start] = true;
+    queue.add(start);
+    
+    while (!queue.isEmpty()) {
+        int v = queue.poll();
+        System.out.print(v + " ");
+        
+        for (int neighbor : adj[v]) {
+            if (!visited[neighbor]) {
+                visited[neighbor] = true;
+                queue.add(neighbor);
+            }
+        }
+    }
+}
+</pre>
+
+            <div class="note">
+                💡 BFS finds the <strong>shortest path in unweighted graphs</strong> because it explores level by level.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>DFS vs BFS Example</h2>
+<pre>
+Graph:
+    0
+   /|\
+  1 2 3
+ /|   |
+5 6   4
+    
+Starting from 0:
+DFS: 0 → 1 → 5 → 6 → 2 → 3 → 4 (goes deep first)
+BFS: 0 → 1 → 2 → 3 → 5 → 6 → 4 (level by level)
+</pre>
+        </div>
+
+        <hr>
+
+        <div class="section">
+            <h2>Dijkstra's Algorithm</h2>
+            <p>Finds shortest path from source to all vertices in a <strong>weighted graph with non-negative edges</strong>.</p>
+
+            <div class="warning">
+                ⚠️ <strong>Only works with non-negative edge weights!</strong>
+            </div>
+
+            <h3>Algorithm Steps</h3>
+            <ol>
+                <li>Set distance to source = 0, all others = ∞</li>
+                <li>Add source to priority queue</li>
+                <li>Extract vertex with minimum distance</li>
+                <li>Update distances to all unvisited neighbors if shorter path found</li>
+                <li>Repeat until all vertices processed</li>
+            </ol>
+
+<pre>
+void dijkstra(int source) {
+    int[] dist = new int[V];
+    boolean[] visited = new boolean[V];
+    Arrays.fill(dist, Integer.MAX_VALUE);
+    dist[source] = 0;
+    
+    // Priority queue: (distance, vertex)
+    PriorityQueue&lt;int[]&gt; pq = new PriorityQueue&lt;&gt;(
+        (a, b) -> a[0] - b[0]
+    );
+    pq.add(new int[]{0, source});
+    
+    while (!pq.isEmpty()) {
+        int[] curr = pq.poll();
+        int u = curr[1];
+        
+        if (visited[u]) continue;
+        visited[u] = true;
+        
+        for (int[] edge : adjWeighted[u]) {
+            int v = edge[0];
+            int weight = edge[1];
+            
+            if (dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+                pq.add(new int[]{dist[v], v});
+            }
+        }
+    }
+}
+</pre>
+
+            <h3>Complexity</h3>
+            <p>With priority queue (min-heap): <span class="complexity good">O((V + E) log V)</span></p>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="quiz-container" id="quiz-bfs-dfs">
+            <h3>📝 Quick Quiz</h3>
+            
+            <div class="quiz-question" data-answer="b">
+                <p>1. DFS uses which data structure?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q1" value="a"> Queue</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="b"> Stack</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="c"> Heap</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="d"> Array</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="a">
+                <p>2. BFS uses which data structure?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q2" value="a"> Queue</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="b"> Stack</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="c"> Heap</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="d"> Tree</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="c">
+                <p>3. Which algorithm finds shortest path in unweighted graph?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q3" value="a"> DFS</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="b"> Dijkstra only</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="c"> BFS</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="d"> Linear search</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="d">
+                <p>4. Dijkstra's algorithm requires:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q4" value="a"> Negative edge weights</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="b"> Unweighted graph</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="c"> Undirected graph only</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="d"> Non-negative edge weights</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="b">
+                <p>5. BFS explores vertices:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q5" value="a"> Deepest first</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="b"> Level by level</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="c"> Random order</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="d"> By weight</label>
+                </div>
+            </div>
+
+            <button class="quiz-btn" onclick="checkQuiz('quiz-bfs-dfs')">Check Answers</button>
+            <button class="quiz-btn" onclick="resetQuiz('quiz-bfs-dfs')" style="background: var(--text-secondary)">Reset</button>
+            <div class="quiz-result"></div>
+        </div>
+
+    </main>
+    <script src="../script.js"></script>
+</body>
+</html>

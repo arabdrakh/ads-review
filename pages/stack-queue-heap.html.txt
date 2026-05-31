@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack, Queue, Heap | ADS Review</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo"><h2>📚 ADS Review</h2></div>
+        <ul class="nav-links">
+            <li><a href="../index.html">🏠 Home</a></li>
+            <li><a href="recursion.html">1. Recursion</a></li>
+            <li><a href="big-o.html">2. Big-O Notation</a></li>
+            <li><a href="data-structures.html">3. Array & LinkedList</a></li>
+            <li><a href="stack-queue-heap.html" class="active">4. Stack, Queue, Heap</a></li>
+            <li><a href="hash-bst.html">5. Hash Tables & BST</a></li>
+            <li><a href="sorting.html">6. Sorting Algorithms</a></li>
+            <li><a href="searching.html">7. Searching</a></li>
+            <li><a href="graphs.html">8. Graphs</a></li>
+            <li><a href="bfs-dfs-dijkstra.html">9. BFS, DFS, Dijkstra</a></li>
+            <li><a href="dynamic-programming.html">10. Dynamic Programming</a></li>
+            <li class="divider"></li>
+            <li><a href="cheatsheet.html">📋 Cheat Sheet</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </nav>
+
+    <main class="content">
+        <div class="back-nav"><a href="../index.html">← Back to Home</a></div>
+        
+        <h1>📚 Logical Data Structures</h1>
+        <h2>Week 4: Stack, Queue, and Heap</h2>
+
+        <div class="section">
+            <h2>Stack (LIFO)</h2>
+            <p><strong>Last-In-First-Out:</strong> The last element added is the first to be removed.</p>
+            
+            <div class="key-point">
+                <strong>Think of:</strong> A stack of plates — you take from the top!
+            </div>
+
+            <h3>Operations (All O(1))</h3>
+            <table>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+                <tr><td><code>push(item)</code></td><td>Add item to top</td></tr>
+                <tr><td><code>pop()</code></td><td>Remove and return top item</td></tr>
+                <tr><td><code>peek()</code></td><td>Return top item without removing</td></tr>
+                <tr><td><code>isEmpty()</code></td><td>Check if stack is empty</td></tr>
+                <tr><td><code>size()</code></td><td>Return number of elements</td></tr>
+            </table>
+
+            <h3>Implementation (Array-based)</h3>
+<pre>
+class MyStack&lt;T&gt; {
+    private Object[] arr;
+    private int top = -1;
+    private int capacity;
+    
+    public MyStack(int cap) {
+        capacity = cap;
+        arr = new Object[capacity];
+    }
+    
+    public void push(T item) {
+        if (top == capacity - 1) {
+            throw new RuntimeException("Stack Overflow");
+        }
+        arr[++top] = item;
+    }
+    
+    public T pop() {
+        if (top == -1) {
+            throw new RuntimeException("Stack Underflow");
+        }
+        return (T) arr[top--];
+    }
+    
+    public T peek() {
+        if (top == -1) return null;
+        return (T) arr[top];
+    }
+    
+    public boolean isEmpty() {
+        return top == -1;
+    }
+}
+</pre>
+
+            <div class="note">
+                💡 <strong>Use cases:</strong> Function call stack, undo operations, expression evaluation, DFS
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="section">
+            <h2>Queue (FIFO)</h2>
+            <p><strong>First-In-First-Out:</strong> The first element added is the first to be removed.</p>
+            
+            <div class="key-point">
+                <strong>Think of:</strong> A line at a store — first come, first served!
+            </div>
+
+            <h3>Operations (All O(1))</h3>
+            <table>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+                <tr><td><code>enqueue(item)</code></td><td>Add item to back</td></tr>
+                <tr><td><code>dequeue()</code></td><td>Remove and return front item</td></tr>
+                <tr><td><code>peek()</code></td><td>Return front item without removing</td></tr>
+                <tr><td><code>isEmpty()</code></td><td>Check if queue is empty</td></tr>
+            </table>
+
+            <h3>Implementation (LinkedList-based)</h3>
+<pre>
+class MyQueue&lt;T&gt; {
+    private Node&lt;T&gt; front;
+    private Node&lt;T&gt; rear;
+    
+    public void enqueue(T data) {
+        Node&lt;T&gt; newNode = new Node&lt;&gt;(data);
+        if (isEmpty()) {
+            front = rear = newNode;
+        } else {
+            rear.next = newNode;
+            rear = newNode;
+        }
+    }
+    
+    public T dequeue() {
+        if (isEmpty()) {
+            throw new RuntimeException("Queue Underflow");
+        }
+        T data = front.data;
+        front = front.next;
+        if (front == null) rear = null;
+        return data;
+    }
+    
+    public boolean isEmpty() {
+        return front == null;
+    }
+}
+</pre>
+
+            <div class="note">
+                💡 <strong>Use cases:</strong> BFS, scheduling, buffers, print queue
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="section">
+            <h2>Heap</h2>
+            <p>A <strong>complete binary tree</strong> that satisfies the heap property.</p>
+
+            <h3>Types</h3>
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Property</th>
+                </tr>
+                <tr>
+                    <td><strong>Max Heap</strong></td>
+                    <td>Parent ≥ Children (root is largest)</td>
+                </tr>
+                <tr>
+                    <td><strong>Min Heap</strong></td>
+                    <td>Parent ≤ Children (root is smallest)</td>
+                </tr>
+            </table>
+
+            <h3>Array Representation</h3>
+            <p>For node at index <code>i</code>:</p>
+            <ul>
+                <li><strong>Left child:</strong> <code>2i</code> (or <code>2i + 1</code> if 0-indexed)</li>
+                <li><strong>Right child:</strong> <code>2i + 1</code> (or <code>2i + 2</code> if 0-indexed)</li>
+                <li><strong>Parent:</strong> <code>i / 2</code> (or <code>(i - 1) / 2</code> if 0-indexed)</li>
+            </ul>
+
+            <h3>Operations</h3>
+            <table>
+                <tr>
+                    <th>Operation</th>
+                    <th>Complexity</th>
+                </tr>
+                <tr>
+                    <td>getMax() / getMin()</td>
+                    <td><span class="complexity good">O(1)</span></td>
+                </tr>
+                <tr>
+                    <td>insert()</td>
+                    <td><span class="complexity good">O(log n)</span></td>
+                </tr>
+                <tr>
+                    <td>extractMax() / extractMin()</td>
+                    <td><span class="complexity good">O(log n)</span></td>
+                </tr>
+                <tr>
+                    <td>heapify()</td>
+                    <td><span class="complexity good">O(log n)</span></td>
+                </tr>
+            </table>
+
+            <h3>Insert Algorithm</h3>
+            <ol>
+                <li>Add new element at the end (last position)</li>
+                <li>Compare with parent</li>
+                <li>Swap if violates heap property</li>
+                <li>Repeat until property satisfied or reached root</li>
+            </ol>
+
+            <h3>Extract Algorithm</h3>
+            <ol>
+                <li>Remove root (return it)</li>
+                <li>Move last element to root</li>
+                <li>Heapify down (compare with children, swap with larger/smaller)</li>
+                <li>Repeat until property satisfied or no children</li>
+            </ol>
+
+<pre>
+// Heapify (Max Heap) - fixes violation at index i
+void heapify(int[] arr, int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+    
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+    
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+    
+    if (largest != i) {
+        swap(arr, i, largest);
+        heapify(arr, n, largest);  // Recursive heapify
+    }
+}
+</pre>
+
+            <div class="note">
+                💡 <strong>Use cases:</strong> Priority queues, heap sort, finding k largest/smallest elements
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="quiz-container" id="quiz-sqh">
+            <h3>📝 Quick Quiz</h3>
+            
+            <div class="quiz-question" data-answer="b">
+                <p>1. Stack follows which principle?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q1" value="a"> FIFO</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="b"> LIFO</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="c"> Random</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="d"> Priority</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="c">
+                <p>2. In a Max Heap, the root element is:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q2" value="a"> Smallest element</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="b"> Middle element</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="c"> Largest element</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="d"> Random element</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="a">
+                <p>3. Time complexity of push() in Stack is:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q3" value="a"> O(1)</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="b"> O(n)</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="c"> O(log n)</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="d"> O(n²)</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="d">
+                <p>4. Which data structure is used for BFS?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q4" value="a"> Stack</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="b"> Heap</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="c"> Array</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="d"> Queue</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="b">
+                <p>5. Time complexity of extractMax() in a Heap is:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q5" value="a"> O(1)</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="b"> O(log n)</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="c"> O(n)</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="d"> O(n log n)</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="a">
+                <p>6. In array representation of heap (1-indexed), left child of node at index i is at:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q6" value="a"> 2i</label>
+                    <label class="quiz-option"><input type="radio" name="q6" value="b"> i/2</label>
+                    <label class="quiz-option"><input type="radio" name="q6" value="c"> i+1</label>
+                    <label class="quiz-option"><input type="radio" name="q6" value="d"> 2i+1</label>
+                </div>
+            </div>
+
+            <button class="quiz-btn" onclick="checkQuiz('quiz-sqh')">Check Answers</button>
+            <button class="quiz-btn" onclick="resetQuiz('quiz-sqh')" style="background: var(--text-secondary)">Reset</button>
+            <div class="quiz-result"></div>
+        </div>
+
+    </main>
+    <script src="../script.js"></script>
+</body>
+</html>

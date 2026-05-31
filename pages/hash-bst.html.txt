@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Tables & BST | ADS Review</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo"><h2>📚 ADS Review</h2></div>
+        <ul class="nav-links">
+            <li><a href="../index.html">🏠 Home</a></li>
+            <li><a href="recursion.html">1. Recursion</a></li>
+            <li><a href="big-o.html">2. Big-O Notation</a></li>
+            <li><a href="data-structures.html">3. Array & LinkedList</a></li>
+            <li><a href="stack-queue-heap.html">4. Stack, Queue, Heap</a></li>
+            <li><a href="hash-bst.html" class="active">5. Hash Tables & BST</a></li>
+            <li><a href="sorting.html">6. Sorting Algorithms</a></li>
+            <li><a href="searching.html">7. Searching</a></li>
+            <li><a href="graphs.html">8. Graphs</a></li>
+            <li><a href="bfs-dfs-dijkstra.html">9. BFS, DFS, Dijkstra</a></li>
+            <li><a href="dynamic-programming.html">10. Dynamic Programming</a></li>
+            <li class="divider"></li>
+            <li><a href="cheatsheet.html">📋 Cheat Sheet</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </nav>
+
+    <main class="content">
+        <div class="back-nav"><a href="../index.html">← Back to Home</a></div>
+        
+        <h1>#️⃣ Hash Tables & Binary Search Trees</h1>
+        <h2>Week 5: Hashing and Tree Structures</h2>
+
+        <div class="section">
+            <h2>Hashing</h2>
+            <p>Hashing maps data to an integer value (hash code) that determines its position in an array.</p>
+            
+            <div class="key-point">
+                <strong>Goal:</strong> Achieve O(1) average-case search, insert, and delete!
+            </div>
+
+            <h3>Hash Function Example</h3>
+<pre>
+// Simple hash for strings
+int hash(String key, int tableSize) {
+    int hashValue = 0;
+    for (char c : key.toCharArray()) {
+        hashValue = (hashValue * 31 + c) % tableSize;
+    }
+    return hashValue;
+}
+
+// Example: hash("Mir") with tableSize = 7
+// M=77, i=105, r=114
+// (77 + 105 + 114) % 7 = 296 % 7 = 2
+</pre>
+        </div>
+
+        <div class="section">
+            <h2>Collision Resolution</h2>
+            <p>A <strong>collision</strong> occurs when two different keys hash to the same index.</p>
+
+            <h3>Method 1: Linear Probing</h3>
+            <p>If position is occupied, try next position (i+1, i+2, ...)</p>
+<pre>
+// Insert with linear probing
+void insert(K key, V value) {
+    int index = hash(key);
+    while (table[index] != null) {
+        index = (index + 1) % tableSize;  // Move to next
+    }
+    table[index] = new Entry(key, value);
+}
+</pre>
+
+            <h3>Method 2: Chaining</h3>
+            <p>Each table position holds a linked list of entries.</p>
+<pre>
+// Array of LinkedLists
+LinkedList&lt;Entry&gt;[] table = new LinkedList[tableSize];
+
+void insert(K key, V value) {
+    int index = hash(key);
+    if (table[index] == null) {
+        table[index] = new LinkedList&lt;&gt;();
+    }
+    table[index].add(new Entry(key, value));
+}
+</pre>
+
+            <h3>Complexity</h3>
+            <table>
+                <tr>
+                    <th>Case</th>
+                    <th>Search/Insert/Delete</th>
+                </tr>
+                <tr>
+                    <td>Average (few collisions)</td>
+                    <td><span class="complexity good">O(1)</span></td>
+                </tr>
+                <tr>
+                    <td>Worst (many collisions)</td>
+                    <td><span class="complexity bad">O(n)</span></td>
+                </tr>
+            </table>
+        </div>
+
+        <hr>
+
+        <div class="section">
+            <h2>Binary Tree</h2>
+            <p>Each node has at most <strong>two children</strong> (left and right).</p>
+
+<pre>
+class TreeNode&lt;T&gt; {
+    T data;
+    TreeNode&lt;T&gt; left;
+    TreeNode&lt;T&gt; right;
+    
+    TreeNode(T data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+</pre>
+
+            <h3>Tree Terminology</h3>
+            <ul>
+                <li><strong>Root:</strong> Top node (no parent)</li>
+                <li><strong>Leaf:</strong> Node with no children</li>
+                <li><strong>Level/Depth:</strong> Number of edges from root</li>
+                <li><strong>Height:</strong> Number of levels in tree</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Binary Search Tree (BST)</h2>
+            <p>A binary tree where for each node:</p>
+            <ul>
+                <li>All values in <strong>left subtree</strong> are <strong>less than</strong> node's value</li>
+                <li>All values in <strong>right subtree</strong> are <strong>greater than</strong> node's value</li>
+            </ul>
+
+<pre>
+        8
+       / \
+      3   10
+     / \    \
+    1   6    14
+       / \   /
+      4   7 13
+</pre>
+        </div>
+
+        <div class="section">
+            <h2>Tree Traversals</h2>
+            
+            <table>
+                <tr>
+                    <th>Traversal</th>
+                    <th>Order</th>
+                    <th>Result (above tree)</th>
+                </tr>
+                <tr>
+                    <td><strong>PreOrder</strong></td>
+                    <td>Root → Left → Right</td>
+                    <td>8, 3, 1, 6, 4, 7, 10, 14, 13</td>
+                </tr>
+                <tr>
+                    <td><strong>InOrder</strong></td>
+                    <td>Left → Root → Right</td>
+                    <td>1, 3, 4, 6, 7, 8, 10, 13, 14</td>
+                </tr>
+                <tr>
+                    <td><strong>PostOrder</strong></td>
+                    <td>Left → Right → Root</td>
+                    <td>1, 4, 7, 6, 3, 13, 14, 10, 8</td>
+                </tr>
+            </table>
+
+            <div class="key-point">
+                <strong>Remember:</strong> InOrder traversal of BST gives <strong>sorted order</strong>!
+            </div>
+
+            <h3>Traversal Code</h3>
+<pre>
+// InOrder Traversal (gives sorted output for BST)
+void inOrder(TreeNode node) {
+    if (node == null) return;
+    
+    inOrder(node.left);      // Visit left subtree
+    System.out.print(node.data + " ");  // Visit root
+    inOrder(node.right);     // Visit right subtree
+}
+
+// PreOrder Traversal
+void preOrder(TreeNode node) {
+    if (node == null) return;
+    
+    System.out.print(node.data + " ");  // Visit root first
+    preOrder(node.left);
+    preOrder(node.right);
+}
+
+// PostOrder Traversal
+void postOrder(TreeNode node) {
+    if (node == null) return;
+    
+    postOrder(node.left);
+    postOrder(node.right);
+    System.out.print(node.data + " ");  // Visit root last
+}
+</pre>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="quiz-container" id="quiz-hash-bst">
+            <h3>📝 Quick Quiz</h3>
+            
+            <div class="quiz-question" data-answer="a">
+                <p>1. Average time complexity of hash table search is:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q1" value="a"> O(1)</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="b"> O(n)</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="c"> O(log n)</label>
+                    <label class="quiz-option"><input type="radio" name="q1" value="d"> O(n²)</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="b">
+                <p>2. Which traversal gives sorted output for BST?</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q2" value="a"> PreOrder</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="b"> InOrder</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="c"> PostOrder</label>
+                    <label class="quiz-option"><input type="radio" name="q2" value="d"> Level Order</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="c">
+                <p>3. In BST, all values in left subtree are:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q3" value="a"> Greater than root</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="b"> Equal to root</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="c"> Less than root</label>
+                    <label class="quiz-option"><input type="radio" name="q3" value="d"> Random</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="d">
+                <p>4. A collision in hash table occurs when:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q4" value="a"> Table is empty</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="b"> Key is null</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="c"> Hash function fails</label>
+                    <label class="quiz-option"><input type="radio" name="q4" value="d"> Two keys hash to same index</label>
+                </div>
+            </div>
+
+            <div class="quiz-question" data-answer="a">
+                <p>5. PreOrder traversal visits nodes in order:</p>
+                <div class="quiz-options">
+                    <label class="quiz-option"><input type="radio" name="q5" value="a"> Root, Left, Right</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="b"> Left, Root, Right</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="c"> Left, Right, Root</label>
+                    <label class="quiz-option"><input type="radio" name="q5" value="d"> Right, Root, Left</label>
+                </div>
+            </div>
+
+            <button class="quiz-btn" onclick="checkQuiz('quiz-hash-bst')">Check Answers</button>
+            <button class="quiz-btn" onclick="resetQuiz('quiz-hash-bst')" style="background: var(--text-secondary)">Reset</button>
+            <div class="quiz-result"></div>
+        </div>
+
+    </main>
+    <script src="../script.js"></script>
+</body>
+</html>

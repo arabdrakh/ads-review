@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADS Final Review</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <h2>📚 ADS Review</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">🏠 Home</a></li>
+            <li><a href="pages/recursion.html">1. Recursion</a></li>
+            <li><a href="pages/big-o.html">2. Big-O Notation</a></li>
+            <li><a href="pages/data-structures.html">3. Array & LinkedList</a></li>
+            <li><a href="pages/stack-queue-heap.html">4. Stack, Queue, Heap</a></li>
+            <li><a href="pages/hash-bst.html">5. Hash Tables & BST</a></li>
+            <li><a href="pages/sorting.html">6. Sorting Algorithms</a></li>
+            <li><a href="pages/searching.html">7. Searching Algorithms</a></li>
+            <li><a href="pages/graphs.html">8. Graphs</a></li>
+            <li><a href="pages/bfs-dfs-dijkstra.html">9. BFS, DFS, Dijkstra</a></li>
+            <li><a href="pages/dynamic-programming.html">10. Dynamic Programming</a></li>
+            <li class="divider"></li>
+            <li><a href="pages/cheatsheet.html">📋 Cheat Sheet</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+    </nav>
+
+    <main class="content">
+        <h1>Algorithms & Data Structures</h1>
+        <h2>Final Exam Review</h2>
+        
+        <div class="info-card">
+            <h3>📝 Exam Format</h3>
+            <p><strong>Duration:</strong> 50 minutes (offline quiz)</p>
+            <p><strong>Weight:</strong> 40% of final grade</p>
+            <p><strong>Format:</strong> Multiple choice + code analysis</p>
+        </div>
+
+        <div class="topics-grid">
+            <div class="topic-card" onclick="location.href='pages/recursion.html'">
+                <h3>🔄 Week 1</h3>
+                <p>Recursion</p>
+            </div>
+            <div class="topic-card" onclick="location.href='pages/big-o.html'">
+                <h3>📈 Week 2</h3>
+                <p>Big-O Notation</p>
+            </div>
+            <div class="topic-card" onclick="location.href='pages/data-structures.html'">
+                <h3>📦 Week 3</h3>
+                <p>Array & LinkedList</p>
+            </div>
+            <div class="topic-card" onclick="location.href='pages/stack-queue-heap.html'">
+                <h3>📚 Week 4</h3>
+                <p>Stack, Queue, Heap</p>
+            </div>
+            <div class="topic-card" onclick="location.href='pages/hash-bst.html'">
+                <h3>#️⃣ Week 5</h3>
+                <p>Hash Tables & BST</p>
+            </div>
+            <div class="topic-card" onclick="location.href='pages/sorting.html'">
+                <h3>🔢 Week 6</h3>
+                <p>Sorting Algorithms</p>
+            </div>
+            <div class="topic-card" onclick="location.href='pages/searching.html'">
+                <h3>🔍 Week 7</h3>
+                <p>Searching</p>
+            </div>
+            <div class="topic-card" onclick="location.href='pages/graphs.html'">
+                <h3>🕸️ Week 8</h3>
+                <p>Graphs</p>
+            </div>
+            <div class="topic-card" onclick="location.href='pages/bfs-dfs-dijkstra.html'">
+                <h3>🗺️ Week 9</h3>
+                <p>BFS, DFS, Dijkstra</p>
+            </div>
+            <div class="topic-card" onclick="location.href='pages/dynamic-programming.html'">
+                <h3>⚡ Week 10</h3>
+                <p>Dynamic Programming</p>
+            </div>
+        </div>
+
+        <div class="info-card highlight">
+            <h3>🎯 Quick Tips</h3>
+            <ul>
+                <li>Know <strong>time complexities</strong> for all algorithms</li>
+                <li>Understand <strong>when to use</strong> each data structure</li>
+                <li>Practice <strong>tracing code</strong> by hand</li>
+                <li>Review the <a href="pages/cheatsheet.html">Cheat Sheet</a> before exam</li>
+            </ul>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
